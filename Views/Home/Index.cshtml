@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@model SaveToTextFileOnServer.Models.TwoStringsModel
+@HtmlHelper.UnobtrusiveJavaScriptEnabled = true;
+
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-10">
+        <h2>Welcome</h2>
+        <p>
+            In this example I'll use ASP.NET MVC to show how to send strings to server asynchronously
+            and save them to a file.
+        </p>
+        <div class="form-group">
+            @using (Ajax.BeginForm("/SaveTwoStrings", null, null, new AjaxOptions { UpdateTargetId = "result" }, new { id = "MyForm" }))
+            {
+                @Html.LabelFor(model => model.StringOne)
+                <br />
+                @Html.EditorFor(model => model.StringOne)
+                @Html.ValidationMessageFor(model => model.StringOne)
+                <br />
+                @Html.LabelFor(model => model.StringTwo)
+                <br />
+                @Html.EditorFor(model => model.StringTwo)
+                @Html.ValidationMessageFor(model => model.StringTwo)
+                <br />
+                <input type="submit" value="OK" />
+            }
+        </div>
+
+        <div id="result">
+            @{
+                var text = (string)ViewData["CurrentString"];
+                Html.RenderPartial("_TwoStringsTextArea", text); 
+            }
+        </div>
+        
+       
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/index.js")    
+}
